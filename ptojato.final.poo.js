@@ -131,5 +131,7 @@ class Conta {
     console.error(`Erro ao solicitar empréstimo: ${error.message}`);
   }
 
+  
+
 //Instruções no static
 Conta.imprimirInstrucoes()
