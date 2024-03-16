@@ -2,14 +2,6 @@
 //Class principal as outras class ContaCorrente e ContaPoupaca, herdarão da class Conta.
 class Conta {
 
-    static imprimirInstrucoes(){
-          // Instruções de segurança para todas as contas usando o metodo static.
-          console.log("**Para manter sua conta segura:**");
-          console.log("- Não compartilhe sua senha com ninguém.");
-          console.log("- Crie uma senha forte e complexa.");
-          console.log("- Desconfie de emails e links suspeitos.");
-    }
-
     #numeroConta;//Privado
     #saldo//Privado
     #cpf//Privado
@@ -66,6 +58,14 @@ class Conta {
         };
       }
 
+      static imprimirInstrucoes(){
+        // Instruções de segurança para todas as contas usando o metodo static.
+        console.log("**Para manter sua conta segura:**");
+        console.log("- Não compartilhe sua senha com ninguém.");
+        console.log("- Crie uma senha forte e complexa.");
+        console.log("- Desconfie de emails e links suspeitos.");
+      }
+
     }
 
 
@@ -109,8 +109,6 @@ class Conta {
       //Classe ContaPoupanca (Herança de Conta):
       class ContaPoupanca extends Conta{
 
-        static melhoresInvestimentos = ["Tesouro Direto", "Ações"];
-
         #taxaJuros//Privado
         #limiteSaques//Privado
 
@@ -120,11 +118,13 @@ class Conta {
           this.#limiteSaques = limiteSaques
         }
 
+        //Exibir novo limite de saque.
         get limiteSaques(){//Exibir novo limite de saque.
           return this.#limiteSaques
         }
 
-        calcularJuros(){
+        //Metodo pra calcular a taxa de juros da poupança
+        calcularJuros(){ 
           if (this.saldo <= 0) {
             throw new Error("Saldo inválido");
           }
@@ -138,9 +138,33 @@ class Conta {
           return `A taxa de juros do cliente: ${this.nomeUsuario}, é de: ${somaJuros.toFixed(4)}.`
         }
 
+        //Metodo para atribuir um novo limite de saque a conta poupança.
         gerenciarLimiteSaques(novoLimite){
            this.#limiteSaques = novoLimite
            return `Cliente: ${this.nomeUsuario}, seu novo limite de saque é: ${this.limiteSaques}.`
+        }
+
+         //Metodo pra mostra melhor investimento ao cliente da conta poupança.
+         static verificarMelhorInvestimento() {
+          // Investimentos simulados
+          const investimentos = [
+            { nome: "Tesouro Direto Selic", rentabilidade: 100, risco: "Baixo", prazo: 12 },
+            { nome: "CDB", rentabilidade: 110, risco: "Médio", prazo: 24 },
+          ];
+        
+          // Filtrar investimentos de renda fixa (adequados para poupança)
+          const investimentosRendaFixa = investimentos.filter(investimento => investimento.risco === "Baixo");
+        
+          // Selecionar investimento com maior rentabilidade dentre os de baixo risco
+          let melhorInvestimento = investimentosRendaFixa[0];
+          for (const investimento of investimentosRendaFixa) {
+            if (investimento.rentabilidade > melhorInvestimento.rentabilidade) {
+              melhorInvestimento = investimento;
+            }
+          }
+        
+          // Retornar informações do melhor investimento
+          return `O melhor investimento para conta poupança é: ${melhorInvestimento.nome}, com rentabilidade de ${melhorInvestimento.rentabilidade}% ao ano, risco ${melhorInvestimento.risco} e prazo de ${melhorInvestimento.prazo} meses.`;
         }
 
       }
@@ -209,6 +233,14 @@ class Conta {
   console.log(novoLimite_01)
   console.log(novoLimite_02)
   console.log(novoLimite_03)
+  console.log("")
+
+  //Chamar o metodo static verificarMelhorInvestimento.
+  const mensagemMelhorInvestimento = ContaPoupanca.verificarMelhorInvestimento();
+
+  //Exibir a mensagem do metodo static verificarMelhorInvestimento.
+  console.log(mensagemMelhorInvestimento);
+
   //<- Metodos Class Poupança.-----------------------------------------------------------------------
 
 
