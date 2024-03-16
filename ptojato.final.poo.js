@@ -100,7 +100,24 @@ class Conta {
             }
           
             const valorAnual = contaEncontrada.#taxaManutencao * 12;
+            ContaCorrente.saldo -= this.#taxaManutencao
             return `Cliente: ${nome}, sua Taxa de manutenção anual será de: ${valorAnual}.`;
+          }
+
+          set limiteChequeEspecial(novoLimite) {
+            if (typeof novoLimite !== "number") {
+              throw new Error("O limite de cheque especial deve ser um número.");
+            }
+          
+            if (novoLimite < 0) {
+              throw new Error("O limite de cheque especial não pode ser negativo.");
+            }
+          
+           this.#limiteChequeEspecial = novoLimite;
+          }
+
+          get limiteChequeEspecial(){
+            return `Cliente ${this.nomeUsuario}, o valor do seu ceque especial foi alterado confira o novo valor - R$:${this.#limiteChequeEspecial}(Reais).`
           }
 
       }
@@ -197,6 +214,19 @@ class Conta {
   console.log(taxaManutencao_02)
   console.log(taxaManutencao_03)
   console.log("") 
+
+  //Novo Cliente pra testa alteração de limite cheque especial.
+  const contaCorrente = new ContaCorrente(123456, "Dorivan Souza", 1000, "Jardineiro", "12345678900", 30, 500, 10);
+
+  //Atribuir um novo valor ao limiteChequeEspecial usando set.
+  contaCorrente.limiteChequeEspecial = 2000; // Altera o limite para R$ 2.000,00
+  
+  //Receber mensagem de cheque especial.
+  const mensagem = contaCorrente.limiteChequeEspecial;
+  
+  //Mostra cliente com cheque especial alterado o valor.
+  console.log(mensagem);
+  console.log("")
 
   //<- Medosos Conta Corrente------------------------------------------------------------------------
 
